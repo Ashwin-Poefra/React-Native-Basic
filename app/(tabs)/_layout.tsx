@@ -11,13 +11,13 @@ export default function TabLayout() {
       headerShadowVisible: false,
       headerTintColor: '#fff',
       tabBarStyle: {
-      backgroundColor: '#25292e',
+        backgroundColor: '#25292e',
       },
     }}>
       <Tabs.Screen name="index" options={{ 
         title: 'Home', 
         tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
+          <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
         ), 
       }} />
       <Tabs.Screen name="about" options={{ 
@@ -25,7 +25,7 @@ export default function TabLayout() {
         tabBarIcon: ({ color, focused }) => (
           <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24}/>
         ),
-      }}/>
+      }} />
     </Tabs>
   );
 }
