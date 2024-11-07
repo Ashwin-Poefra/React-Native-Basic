@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default function Button({ label, theme }: Props) {
-  if (theme = 'primary') {
+  if (theme === 'primary') {
     return (
       <View 
         style={[styles.buttonContainer, { borderWidth: 4, borderColor: '#ffd33d', borderRadius: 18 },
