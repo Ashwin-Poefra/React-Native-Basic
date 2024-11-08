@@ -1,4 +1,4 @@
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Share, Platform } from 'react-native';
 import * as ImagePickier from 'expo-image-picker';
 import { useRef, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -50,7 +50,15 @@ export default function Index() {
     setShowAppOptions(false);
   };
 
-  const onShare = () => {}
+  const onShare = async () => {
+    try {
+      await Share.share({
+        message: "Hi, this is StickerSmash app."
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   const onAddSticker = () => {
     setIsModalVisible(true);
