@@ -50,6 +50,8 @@ export default function Index() {
     setShowAppOptions(false);
   };
 
+  const onShare = () => {}
+
   const onAddSticker = () => {
     setIsModalVisible(true);
   };
@@ -104,10 +106,15 @@ export default function Index() {
         {
           showAppOptions ? (
             <View style={styles.optionsContainer}>
-              <View style={styles.optionsRow}>
-                <IconButton icon="refresh" label="Reset" onPress={onReset} />
-                <CircleButton onPress={onAddSticker} />
-                <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
+              <View style={styles.optionsColumn}>
+                <View>
+                  <CircleButton onPress={onAddSticker} />
+                </View>
+                <View style={styles.optionsRow}>
+                  <IconButton icon="refresh" label="Reset" onPress={onReset} />
+                  <IconButton icon="share" label="Share" onPress={onShare} />
+                  <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
+                </View>
               </View>
             </View>
           ) : (
@@ -140,10 +147,15 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 10,
+  },
+  optionsColumn: {
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    gap: 10
   },
   optionsRow: {
-    alignItems: 'center',
+    justifyContent: 'space-around',
     flexDirection: 'row',
   },
 });
