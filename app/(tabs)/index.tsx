@@ -59,9 +59,12 @@ export default function Index() {
         quality: 1,
       });
 
-      // await Share.open({
-      //   message: 'Hello'
-      // });
+      const shareOptions = {
+        message: "",
+        url: localUri
+      }
+
+      await Share.open(shareOptions);
     } catch (e) {
       console.log(e);
     }
