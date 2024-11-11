@@ -130,7 +130,7 @@ export default function Index() {
                   <CircleButton onPress={onAddSticker} />
                 </View>
                 <View style={styles.optionsRow}>
-                  <IconButton icon="refresh" label="Reset" onPress={onReset} />
+                  <IconButton icon="arrow-back" label="Return" onPress={onReset} />
                   <IconButton icon="share" label="Share" onPress={onShare} />
                   <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
                 </View>
