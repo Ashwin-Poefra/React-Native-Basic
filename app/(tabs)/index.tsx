@@ -1,6 +1,7 @@
 import { View, StyleSheet, Platform } from 'react-native';
 import * as Sharing from 'expo-sharing';
 import * as ImagePickier from 'expo-image-picker';
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 import { useRef, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as MediaLibrary from 'expo-media-library';
