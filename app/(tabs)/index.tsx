@@ -62,32 +62,24 @@ export default function Index() {
         height: 440,
       });
 
+      const filePath = `${RNFS.CachesDirectoryPath}/image.png`;
+      const base64Image = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+
+      await RNFS.writeFile(filePath, base64Image, 'base64');
+
       const shareOptions = {
-        message: `${message}\n${link}`
+        title: "Share via",
+        message: `${message}\n${link}`,
+        url: `file://${filePath}`,
       };
 
-      try {
-        RNFS.downloadFile({
-          fromUrl: dataUrl,
-          toFile: `${RNFS.CachesDirectoryPath}/image.png`,
+      Share.open(shareOptions)
+        .then(() => {
+          console.log("Share successfully!");
         })
-          .promise.then(() => {
-            RNFS.readFile(`${RNFS.CachesDirectoryPath}/image.png`, 'base64')
-            .then(res => {
-              shareOptions.url = `data:image/png;base64,${res}`;
-
-              Share.shareSingle({
-                ...shareOptions,
-                social: Share.Social.WHATSAPP,
-              });
-            })
-            .catch(e => {
-              console.log(e);
-            })
-          })
-      } catch (e) {
-        console.log(e);
-      }
+        .catch((e) => {
+          console.log("Error in sharing", e);
+        });
     } catch (e) {
       console.log(e);
     }
