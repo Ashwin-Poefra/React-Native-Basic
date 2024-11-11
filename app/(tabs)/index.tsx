@@ -41,7 +41,7 @@ export default function Index() {
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri)
+      setSelectedImage(result.assets[0].uri);
       setShowAppOptions(true);
     } else {
       alert('You did not select any image.');
@@ -82,7 +82,7 @@ export default function Index() {
               });
             })
             .catch(e => {
-              console.log(e)
+              console.log(e);
             })
           })
       } catch (e) {
