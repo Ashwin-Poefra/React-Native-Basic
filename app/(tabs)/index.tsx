@@ -102,7 +102,7 @@ export default function Index() {
         if (localUri) {
           Toast.show({
             type: ALERT_TYPE.SUCCESS,
-            title: 'Congratulations!',
+            title: 'Congratulations',
             textBody: 'Saved successfully!',
           });
         }
