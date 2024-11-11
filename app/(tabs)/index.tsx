@@ -19,12 +19,12 @@ import EmojiSticker from '@/components/EmojiSticker';
 
 const PlaceholderImage = require('@/assets/images/background-image.png');
 
-export default function Index() {  
+export default function Index() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [pickedEmoji, setPickedEmoji] = useState<ImageSource | undefined>(undefined);
-  
+
   const imageRef = useRef<View>(null);
 
   const [status, requestPermission] = MediaLibrary.usePermissions();
@@ -44,7 +44,11 @@ export default function Index() {
       setSelectedImage(result.assets[0].uri);
       setShowAppOptions(true);
     } else {
-      alert('You did not select any image.');
+      Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: 'No Image Selected',
+        button: 'close'
+      });
     }
   };
 
@@ -65,7 +69,12 @@ export default function Index() {
           dialogTitle: "Share Image",
         });
       } else {
-        alert("Sharing is not available on this platform.");
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: 'Not supported content',
+          textBody: 'Sharing is not available on this platform.',
+          button: 'close'
+        });
       }
     } catch (e) {
       console.log(e);
@@ -87,11 +96,15 @@ export default function Index() {
           height: 440,
           quality: 1,
         });
-  
+
         await MediaLibrary.saveToLibraryAsync(localUri);
-  
-        if(localUri) {
-          alert('Saved successfully!');
+
+        if (localUri) {
+          Toast.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: 'Congratulations!',
+            textBody: 'Saved successfully!',
+          });
         }
       } catch (e) {
         console.log(e);
@@ -116,38 +129,40 @@ export default function Index() {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <View style={ styles.container }>
-        <View style={ styles.imageContainer }>
-          <View ref={imageRef} collapsable={false}>
-            <ImageViewer imgSource={ PlaceholderImage } selectedImage={selectedImage} />
-            {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
+      <AlertNotificationRoot>
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <View ref={imageRef} collapsable={false}>
+              <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
+              {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
+            </View>
           </View>
-        </View>
-        {
-          showAppOptions ? (
-            <View style={styles.optionsContainer}>
-              <View style={styles.optionsColumn}>
-                <View>
-                  <CircleButton onPress={onAddSticker} />
-                </View>
-                <View style={styles.optionsRow}>
-                  <IconButton icon="arrow-back" label="Return" onPress={onReset} />
-                  <IconButton icon="share" label="Share" onPress={onShare} />
-                  <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
+          {
+            showAppOptions ? (
+              <View style={styles.optionsContainer}>
+                <View style={styles.optionsColumn}>
+                  <View>
+                    <CircleButton onPress={onAddSticker} />
+                  </View>
+                  <View style={styles.optionsRow}>
+                    <IconButton icon="arrow-back" label="Return" onPress={onReset} />
+                    <IconButton icon="share" label="Share" onPress={onShare} />
+                    <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
+                  </View>
                 </View>
               </View>
-            </View>
-          ) : (
-          <View style={ styles.footerContainer }>
-            <Button theme='primary' label='Choose a photo' onPress={pickImageAsync} />
-            <Button label='Use this photo' onPress={() => setShowAppOptions(true)} />
-          </View>
-          )
-        }
-        <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-          <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
-        </EmojiPicker>
-      </View>
+            ) : (
+              <View style={styles.footerContainer}>
+                <Button theme='primary' label='Choose a photo' onPress={pickImageAsync} />
+                <Button label='Use this photo' onPress={() => setShowAppOptions(true)} />
+              </View>
+            )
+          }
+          <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+            <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+          </EmojiPicker>
+        </View>
+      </AlertNotificationRoot>
     </GestureHandlerRootView>
   );
 }
