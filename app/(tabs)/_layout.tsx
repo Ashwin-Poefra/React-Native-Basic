@@ -20,10 +20,16 @@ export default function TabLayout() {
           <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
         ), 
       }} />
+      <Tabs.Screen name="location" options={{
+        title: 'Location',
+        tabBarIcon: ({ color, focused }) => (
+          <Ionicons name={focused ? 'location': 'location-outline'} color={color} size={24} />
+        ),
+      }} />
       <Tabs.Screen name="about" options={{ 
         title: 'About',
         tabBarIcon: ({ color, focused }) => (
-          <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24}/>
+          <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24} />
         ),
       }} />
     </Tabs>
