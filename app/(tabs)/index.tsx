@@ -1,6 +1,6 @@
 import { View, StyleSheet, Platform } from 'react-native';
-import Share from 'react-native-share';
-import RNFS from 'react-native-fs';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 import * as ImagePickier from 'expo-image-picker';
 import { useRef, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -54,32 +54,19 @@ export default function Index() {
 
   const onShare = async () => {
     try {
-      const message = "Hi, this is the photo of Vervesoft's office";
-      const link = "https://vervesoft.io/";
-      const dataUrl = await domtoimage.toJpeg(imageRef.current, {
-        quality: 0.95,
-        width: 320,
-        height: 440,
+      const uri = await captureRef(imageRef, {
+        format: 'png',
+        quality: 0.8,
       });
 
-      const filePath = `${RNFS.CachesDirectoryPath}/image.png`;
-      const base64Image = dataUrl.replace(/^data:image\/\w+;base64,/, "");
-
-      await RNFS.writeFile(filePath, base64Image, 'base64');
-
-      const shareOptions = {
-        title: "Share via",
-        message: `${message}\n${link}`,
-        url: `file://${filePath}`,
-      };
-
-      Share.open(shareOptions)
-        .then(() => {
-          console.log("Share successfully!");
-        })
-        .catch((e) => {
-          console.log("Error in sharing", e);
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(uri, {
+          mimeType: "image/png",
+          dialogTitle: "Share Image",
         });
+      } else {
+        alert("Sharing is not available on this platform.");
+      }
     } catch (e) {
       console.log(e);
     }
