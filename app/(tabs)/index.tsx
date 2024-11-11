@@ -56,38 +56,38 @@ export default function Index() {
     try {
       const message = "Hi, this is the photo of Vervesoft's office";
       const link = "https://vervesoft.io/";
-      const localUri = await captureRef(imageRef, {
-        format: 'png',
+      const dataUrl = await domtoimage.toJpeg(imageRef.current, {
+        quality: 0.95,
+        width: 320,
         height: 440,
-        quality: 1,
       });
 
       const shareOptions = {
         message: `${message}\n${link}`
       };
 
-      // try {
-      //   RNFS.downloadFile({
-      //     fromUrl: localUri,
-      //     toFile: `${RNFS.CachesDirectoryPath}/image.png`,
-      //   })
-      //     .promise.then(() => {
-      //       RNFS.readFile(`${RNFS.CachesDirectoryPath}/image.png`, 'base64')
-      //       .then(res => {
-      //         shareOptions.url = `data:image/png;base64,${res}`;
+      try {
+        RNFS.downloadFile({
+          fromUrl: dataUrl,
+          toFile: `${RNFS.CachesDirectoryPath}/image.png`,
+        })
+          .promise.then(() => {
+            RNFS.readFile(`${RNFS.CachesDirectoryPath}/image.png`, 'base64')
+            .then(res => {
+              shareOptions.url = `data:image/png;base64,${res}`;
 
-      //         Share.shareSingle({
-      //           ...shareOptions,
-      //           social: Share.Social.WHATSAPP,
-      //         });
-      //       })
-      //       .catch(e => {
-      //         console.log(e)
-      //       })
-      //     })
-      // } catch (e) {
-      //   console.log(e);
-      // }
+              Share.shareSingle({
+                ...shareOptions,
+                social: Share.Social.WHATSAPP,
+              });
+            })
+            .catch(e => {
+              console.log(e)
+            })
+          })
+      } catch (e) {
+        console.log(e);
+      }
     } catch (e) {
       console.log(e);
     }
