@@ -1,5 +1,6 @@
 import { View, StyleSheet, Platform } from 'react-native';
 import Share from 'react-native-share';
+import RNFS from 'react-native-fs';
 import * as ImagePickier from 'expo-image-picker';
 import { useRef, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -53,6 +54,8 @@ export default function Index() {
 
   const onShare = async () => {
     try {
+      const message = "Hi, this is the photo of Vervesoft's office";
+      const link = "https://vervesoft.io/";
       const localUri = await captureRef(imageRef, {
         format: 'png',
         height: 440,
@@ -60,11 +63,31 @@ export default function Index() {
       });
 
       const shareOptions = {
-        message: "",
-        url: localUri
-      }
+        message: `${message}\n${link}`
+      };
 
-      await Share.open(shareOptions);
+      // try {
+      //   RNFS.downloadFile({
+      //     fromUrl: localUri,
+      //     toFile: `${RNFS.CachesDirectoryPath}/image.png`,
+      //   })
+      //     .promise.then(() => {
+      //       RNFS.readFile(`${RNFS.CachesDirectoryPath}/image.png`, 'base64')
+      //       .then(res => {
+      //         shareOptions.url = `data:image/png;base64,${res}`;
+
+      //         Share.shareSingle({
+      //           ...shareOptions,
+      //           social: Share.Social.WHATSAPP,
+      //         });
+      //       })
+      //       .catch(e => {
+      //         console.log(e)
+      //       })
+      //     })
+      // } catch (e) {
+      //   console.log(e);
+      // }
     } catch (e) {
       console.log(e);
     }
