@@ -18,8 +18,17 @@ export default function LocatinoScreen() {
         });
       }
 
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currentLocation);
+      const subscription = await Location.watchPositionAsync({
+          accuracy: Location.Accuracy.High,
+          timeInterval: 5000,
+          distanceInterval: 10,
+        },
+        (newLocation) => {
+          setLocation(newLocation)
+        }
+      );
+
+      return () => subscription.remove();
     })();
   }, []);
   return (
