@@ -1,7 +1,8 @@
 import * as Location from 'expo-location';
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import { Dimensions, View, StyleSheet } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 export default function LocatinoScreen() {
   const [location, setLocation] = useState(null);
@@ -32,10 +33,36 @@ export default function LocatinoScreen() {
     })();
   }, []);
   return (
-    <View>
-      <Text>
-        Location: {location ? JSON.stringify(location) : 'Fetching location...'}
-      </Text>
+    <View style={styles.container}>
+      {location ? (
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+        >
+          <Marker
+            coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            }}
+            title={"You're here!"}
+          />
+        </MapView>
+      ) : null}
     </View>
-  )
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+});
