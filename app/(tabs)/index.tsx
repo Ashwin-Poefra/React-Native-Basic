@@ -47,7 +47,7 @@ export default function Index() {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: 'No Image Selected',
-        button: 'close'
+        button: 'Close'
       });
     }
   };
@@ -73,7 +73,7 @@ export default function Index() {
           type: ALERT_TYPE.WARNING,
           title: 'Not supported content',
           textBody: 'Sharing is not available on this platform.',
-          button: 'close'
+          button: 'Close'
         });
       }
     } catch (e) {
