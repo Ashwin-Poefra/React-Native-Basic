@@ -4,7 +4,7 @@ import { Dimensions, View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
-export default function LocatinoScreen() {
+export default function LocationScreen() {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
