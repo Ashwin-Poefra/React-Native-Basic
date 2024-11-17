@@ -25,7 +25,9 @@ export default function LocationScreen() {
           distanceInterval: 10,
         },
         (newLocation) => {
-          setLocation(newLocation)
+          if (newLocation) {
+            setLocation(newLocation); // Safely set location
+          }
         }
       );
 
